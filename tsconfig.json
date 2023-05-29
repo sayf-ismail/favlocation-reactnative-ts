@@ -1,6 +1,14 @@
 {
   "extends": "expo/tsconfig.base",
+  "ts-node": {
+    "files": true
+  },
   "compilerOptions": {
-    "strict": true
-  }
+    "strict": true,
+    "allowJs": true,
+    "target": "es5"
+  },
+  "files": ["./types/NavigationTypes.d.ts"],
+  "include": ["./**/*.tsx", "./types/*.d.ts"],
+  "typeRoots": ["./types"]
 }

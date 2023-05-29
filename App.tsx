@@ -6,8 +6,10 @@ import AddPlace from "./screens/AddPlace";
 import IconButton from "./components/UI/IconButton";
 import { HeaderButtonProps } from "@react-navigation/native-stack/lib/typescript/src/types";
 import { Colors } from "./constants/colors";
+import MapScreen from "./screens/Map";
+import { RootStackParamList } from "./types/NavigationTypes";
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
@@ -24,7 +26,7 @@ export default function App() {
           <Stack.Screen
             name="AllPlaces"
             component={AllPlaces}
-            options={({ navigation }) => ({
+            options={({ navigation }: { navigation: any }) => ({
               title: "Your Favorite Places",
               headerRight: ({ tintColor }: HeaderButtonProps) => (
                 <IconButton
@@ -37,6 +39,7 @@ export default function App() {
             })}
           />
           <Stack.Screen name="AddPlace" component={AddPlace} />
+          <Stack.Screen name="Map" component={MapScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </>
