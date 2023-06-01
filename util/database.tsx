@@ -1,29 +1,49 @@
 import * as SQLite from "expo-sqlite";
 
-const database = SQLite.openDatabase("places.database");
+const database = SQLite.openDatabase("places.db");
 
 export function init() {
   console.log("Initializing database...");
   const promise: Promise<void> = new Promise((resolve, reject) => {
-    // ...
+    database.transaction((tx) => {
+      tx.executeSql(
+        `CREATE TABLE IF NOT EXISTS places (
+        id INTEGER PRIMARY KEY NOT NULL,
+        text TEXT NOT NULL,
+        imageUri TEXT NOT NULL,
+        address TEXT NOT NULL,
+        lat REAL NOT NULL,
+        lng REAL NOT NULL
+      )`,
+        [],
+        () => {
+          console.log("Database table created or already exists");
+          resolve();
+        },
+        (_, err) => {
+          console.error("Error creating database table:", err);
+          reject(err);
+        }
+      );
+    });
   });
   return promise;
 }
 
-// export async function insertPlace(place: Place): Promise<Place> {
-//   console.log("Inserting place:", place);
+export async function insertPlace(place: Place): Promise<Place> {
+  console.log("Inserting place:", place);
 
-//   try {
-//     await init();
-//     await executeInsertion(place);
-//     const retrievedPlace = await executeRetrieval(place.id);
-//     console.log("Inserted place:", retrievedPlace);
-//     return retrievedPlace;
-//   } catch (error) {
-//     console.log("Error inserting place:", error);
-//     throw error;
-//   }
-// }
+  try {
+    await init();
+    // await executeInsertion(place);
+    // const retrievedPlace = await executeRetrieval(place.id);
+    // console.log("Inserted place:", retrievedPlace);
+    // return retrievedPlace;
+  } catch (error) {
+    console.log("init error:", error);
+    throw error;
+  }
+}
 
 // const executeSql = (
 //   sql: string,

@@ -28,7 +28,13 @@ export default function App() {
 
   if (!dbInitialised) {
     // return <AppLoading />;
-    return <Text>Loading...</Text>;
+    return (
+      <Text
+        style={{ flex: 1, justifyContent: "center", alignContent: "center" }}
+      >
+        Loading...
+      </Text>
+    );
   }
 
   return (
