@@ -1,14 +1,52 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { View, Text, ScrollView, TextInput, StyleSheet } from "react-native";
 import { Colors } from "../../constants/colors";
 import ImagePicker from "./ImagePicker";
 import LocationPicker from "./LocationPicker";
+import Button from "../UI/Button";
+import { Coordinates } from "../../types/NavigationTypes";
 
-export default function PlaceForm() {
+export default function PlaceForm({
+  onCreatePlace,
+}: {
+  onCreatePlace: (place: Place) => void;
+}) {
   const [enteredTitle, setEnteredTitle] = useState("");
+  const [selectedImage, setSelectedImage] = useState("");
+  const [pickedLocation, setPickedLocation] = useState<Coordinates | null>();
 
   function changeTitleHandler(enteredText: string) {
     setEnteredTitle(enteredText);
+  }
+
+  function takeImageHandler(imageUri: string) {
+    setSelectedImage(imageUri);
+  }
+
+  const pickLocationHandler = useCallback(
+    (location: Coordinates, address: string) => {
+      setPickedLocation({
+        lat: location.lat,
+        lng: location.lng,
+        address: address,
+      });
+    },
+    []
+  );
+
+  function savePlaceHandler() {
+    console.log(enteredTitle, selectedImage, pickedLocation);
+    const placeData: Place = {
+      id: new Date().toString() + Math.random().toString(),
+      title: enteredTitle,
+      imageUri: selectedImage,
+      address: pickedLocation?.address || "",
+      location: {
+        lat: pickedLocation || { lat: 0, lng: 0 },
+      },
+    };
+
+    onCreatePlace(placeData);
   }
 
   return (
@@ -21,8 +59,9 @@ export default function PlaceForm() {
           style={styles.input}
         />
       </View>
-      <ImagePicker />
-      <LocationPicker />
+      <ImagePicker onTakeImage={takeImageHandler} />
+      <LocationPicker onPickLocation={pickLocationHandler} />
+      <Button onPress={savePlaceHandler}>Add Place</Button>
     </ScrollView>
   );
 }

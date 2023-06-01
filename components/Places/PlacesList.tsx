@@ -22,14 +22,18 @@ export default function PlacesList({ places }: { places: Place[] }) {
 
   return (
     <FlatList
+      style={styles.list}
       data={places}
-      keyExtractor={(item) => item.id}
-      renderItem={({ item }) => <PlaceItem place={item} />}
+      keyExtractor={(item) => item?.id}
+      renderItem={({ item }) => <PlaceItem key={item?.id} place={item} />}
     />
   );
 }
 
 const styles = StyleSheet.create({
+  list: {
+    margin: 24,
+  },
   fallbackContainer: {
     flex: 1,
     justifyContent: "center",

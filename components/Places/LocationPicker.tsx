@@ -4,7 +4,7 @@ import {
   useForegroundPermissions,
   PermissionStatus,
 } from "expo-location";
-import { getMapPreview } from "../../util/location";
+import { getAddress, getMapPreview } from "../../util/location";
 
 import OutlinedButton from "../UI/OutlinedButton";
 import { Colors } from "../../constants/colors";
@@ -17,11 +17,7 @@ import {
   ParamListBase,
 } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-
-interface Coordinates {
-  lat: number;
-  lng: number;
-}
+import { Coordinates } from "../../types/NavigationTypes";
 
 type LocationPickerScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -37,8 +33,14 @@ export interface RootStackParamList extends ParamListBase {
   Map: undefined;
 }
 
-export default function LocationPicker() {
-  const [pickedLocation, setPickedLocation] = useState<Coordinates | null>();
+export default function LocationPicker({
+  onPickLocation,
+}: {
+  onPickLocation: (location: Coordinates, address: string) => void;
+}) {
+  const [pickedLocation, setPickedLocation] = useState<
+    Coordinates | undefined
+  >();
   const isFocused = useIsFocused();
 
   const route = useRoute<RouteProp<RootStackParamList, "AddPlace">>();
@@ -52,10 +54,26 @@ export default function LocationPicker() {
       const mapPickedLocation: Coordinates | undefined = {
         lat: route.params.pickedLat,
         lng: route.params.pickedLng,
+        address: "",
       };
       setPickedLocation(mapPickedLocation);
     }
   }, [route, isFocused]);
+
+  async function handleLocation() {
+    if (pickedLocation) {
+      const address = await getAddress({
+        lat: pickedLocation.lat,
+        lng: pickedLocation.lng,
+        address: "",
+      });
+      onPickLocation(pickedLocation, address);
+    }
+  }
+
+  useEffect(() => {
+    handleLocation();
+  }, [pickedLocation, onPickLocation]);
 
   async function verifyPermissions() {
     if (
@@ -89,6 +107,7 @@ export default function LocationPicker() {
     setPickedLocation({
       lat: location.coords.latitude,
       lng: location.coords.longitude,
+      address: "",
     });
   }
 
@@ -103,7 +122,11 @@ export default function LocationPicker() {
       <Image
         style={styles.image}
         source={{
-          uri: getMapPreview(pickedLocation?.lat, pickedLocation?.lng),
+          uri: getMapPreview({
+            lat: pickedLocation?.lat,
+            lng: pickedLocation?.lng,
+            address: "",
+          }),
         }}
       />
     );

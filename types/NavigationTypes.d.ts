@@ -10,3 +10,9 @@ type RootStackParamList = {
 };
 
 type MapScreenProps = NativeStackScreenProps<RootStackParamList, "Map">;
+
+interface Coordinates {
+  address: string;
+  lat: number;
+  lng: number;
+}

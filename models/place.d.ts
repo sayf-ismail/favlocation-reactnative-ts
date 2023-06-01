@@ -1,9 +1,9 @@
 interface Place {
   id: string; // new Date().toString() + Math.random().toString();
   title: string;
-  imageUri: string;
+  imageUri?: string;
   address: string;
-  location: { lat: number; lng: number };
+  location: Coordinates;
 }
 // class Place {
 //   constructor(title, imageUri, address, location) {

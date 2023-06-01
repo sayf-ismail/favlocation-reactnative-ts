@@ -1,4 +1,5 @@
 import { StatusBar } from "expo-status-bar";
+import { Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AllPlaces from "./screens/AllPlaces";
@@ -8,10 +9,28 @@ import { HeaderButtonProps } from "@react-navigation/native-stack/lib/typescript
 import { Colors } from "./constants/colors";
 import MapScreen from "./screens/Map";
 import { RootStackParamList } from "./types/NavigationTypes";
+import { useEffect, useState } from "react";
+import { init } from "./util/database";
+// import AppLoading from "expo-app-loading";
+// import * as SplashScreen from 'expo-splash-screen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
+  const [dbInitialised, setDbInitialised] = useState(false);
+  useEffect(() => {
+    init()
+      .then(() => setDbInitialised(true))
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  if (!dbInitialised) {
+    // return <AppLoading />;
+    return <Text>Loading...</Text>;
+  }
+
   return (
     <>
       <StatusBar style="dark" />
