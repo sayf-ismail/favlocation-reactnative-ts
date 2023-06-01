@@ -9,7 +9,9 @@ export default function AddPlace({ navigation }: any) {
     try {
       await insertPlace(place);
       console.log("Place inserted successfully");
-      navigation.navigate("AllPlaces");
+      navigation.navigate("AllPlaces", {
+        place: place,
+      });
     } catch (error) {
       console.log("Error inserting place:", error);
     }

@@ -23,16 +23,9 @@ export default function PlaceForm({
     setSelectedImage(imageUri);
   }
 
-  const pickLocationHandler = useCallback(
-    (location: Coordinates, address: string) => {
-      setPickedLocation({
-        lat: location.lat,
-        lng: location.lng,
-        address: address,
-      });
-    },
-    []
-  );
+  const pickLocationHandler = useCallback((location: Coordinates) => {
+    setPickedLocation(location);
+  }, []);
 
   function savePlaceHandler() {
     console.log(enteredTitle, selectedImage, pickedLocation);
@@ -42,7 +35,8 @@ export default function PlaceForm({
       imageUri: selectedImage,
       address: pickedLocation?.address || "",
       location: {
-        lat: pickedLocation || { lat: 0, lng: 0 },
+        lat: pickedLocation?.lat || { lat: 0, lng: 0 },
+        lng: pickedLocation?.lng || { lat: 0, lng: 0 },
       },
     };
 
