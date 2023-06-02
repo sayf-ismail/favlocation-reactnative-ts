@@ -9,11 +9,17 @@ import {
 } from "react-native";
 import { Colors } from "../../constants/colors";
 
-function PlaceItem({ place }: { place: Place }, onSelect: () => void) {
+function PlaceItem({
+  place,
+  onSelect,
+}: {
+  place: Place;
+  onSelect: (id: string) => void;
+}) {
   return (
     <Pressable
       style={({ pressed }) => [styles.item, pressed && styles.pressed]}
-      onPress={onSelect}
+      onPress={onSelect.bind(this, place.id)}
     >
       <Image source={{ uri: place?.imageUri }} />
       <View style={styles.info}>

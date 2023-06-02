@@ -30,7 +30,6 @@ export default function PlaceForm({
   function savePlaceHandler() {
     console.log(enteredTitle, selectedImage, pickedLocation);
     const placeData: Place = {
-      id: new Date().toString() + Math.random().toString(),
       title: enteredTitle,
       imageUri: selectedImage,
       address: pickedLocation?.address || "",

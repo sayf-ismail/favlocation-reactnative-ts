@@ -1,5 +1,5 @@
 interface Place {
-  id: string; // new Date().toString() + Math.random().toString();
+  id?: string; // new Date().toString() + Math.random().toString();
   title: string;
   imageUri?: string;
   address: string;

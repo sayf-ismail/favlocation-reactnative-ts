@@ -11,6 +11,7 @@ import MapScreen from "./screens/Map";
 import { RootStackParamList } from "./types/NavigationTypes";
 import { useEffect, useState } from "react";
 import { init } from "./util/database";
+import PlaceDetails from "./screens/PlaceDetails";
 // import AppLoading from "expo-app-loading";
 // import * as SplashScreen from 'expo-splash-screen';
 
@@ -63,8 +64,13 @@ export default function App() {
               ),
             })}
           />
-          <Stack.Screen name="AddPlace" component={AddPlace} />
+          <Stack.Screen
+            name="AddPlace"
+            component={AddPlace}
+            options={{ title: "Add a new Place" }}
+          />
           <Stack.Screen name="Map" component={MapScreen} />
+          <Stack.Screen name="PlaceDetails" component={PlaceDetails} />
         </Stack.Navigator>
       </NavigationContainer>
     </>
