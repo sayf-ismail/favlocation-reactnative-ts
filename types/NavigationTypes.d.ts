@@ -1,7 +1,8 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 type RootStackParamList = {
-  AllPlaces: undefined;
+  SplashScreen: undefined;
+  Insta: undefined;
   AddPlace: {
     pickedLat: number;
     pickedLng: number;

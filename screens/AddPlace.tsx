@@ -9,7 +9,7 @@ export default function AddPlace({ navigation }: any) {
     try {
       await insertPlace(place);
       console.log("Place inserted successfully");
-      navigation.navigate("AllPlaces", {
+      navigation.navigate("SplashScreen", {
         place: place,
       });
     } catch (error) {

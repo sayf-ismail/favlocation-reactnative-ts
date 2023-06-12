@@ -25,7 +25,8 @@ type LocationPickerScreenNavigationProp = StackNavigationProp<
 >;
 
 export interface RootStackParamList extends ParamListBase {
-  AllPlaces: undefined;
+  SplashScreen: undefined;
+  Insta: undefined;
   AddPlace: {
     pickedLat: number;
     pickedLng: number;
